@@ -2,6 +2,8 @@ package android.lessons.simple.clean.presentation
 
 import android.lessons.simple.clean.domain.UseCaseFirst
 import android.lessons.simple.clean.domain.UseCaseSecond
+import android.lessons.simple.clean.domainwithsoa.firstservice.FirstInteractor
+import android.lessons.simple.clean.domainwithsoa.secondservice.SecondInteractor
 import android.lessons.simple.functionalservices.fservicefirst.FirstFunctionality
 import android.lessons.simple.functionalservices.fservicesecond.SecondFunctionality
 import android.lessons.simple.ui.theme.Android_Lessons_simpleTheme
@@ -32,16 +34,26 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        val numFirst = UseCaseFirst().getNumberOfLessons()
+        val bestNum = FirstInteractor().getNiceNum()
 
-        val niceNumber = UseCaseFirst().getNiceNum()
+        val bestTheme = SecondInteractor().getTheme()
 
-        val themeFirst = UseCaseSecond().getThemeString()
+        Log.e("best is ", "$bestNum $bestTheme")
 
-        Log.e("Clean ", "$numFirst $niceNumber $themeFirst")
+        legacyClean()
 
         printSOA()
     }
+}
+
+fun legacyClean() {
+    val numFirst = UseCaseFirst().getNumberOfLessons()
+
+    val niceNumber = UseCaseFirst().getNiceNum()
+
+    val themeFirst = UseCaseSecond().getThemeString()
+
+    Log.e("Clean ", "$numFirst $niceNumber $themeFirst")
 }
 
 fun printSOA() {
