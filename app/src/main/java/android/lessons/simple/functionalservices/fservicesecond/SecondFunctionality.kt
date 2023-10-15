@@ -1,4 +1,4 @@
-package android.lessons.simple.ui.functionalservices.fservicesecond
+package android.lessons.simple.functionalservices.fservicesecond
 
 class SecondFunctionality {
 

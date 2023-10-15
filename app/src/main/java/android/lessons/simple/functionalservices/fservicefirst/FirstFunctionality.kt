@@ -1,4 +1,4 @@
-package android.lessons.simple.ui.functionalservices.fservicefirst
+package android.lessons.simple.functionalservices.fservicefirst
 
 class FirstFunctionality {
 
