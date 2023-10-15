@@ -1,9 +1,11 @@
 package android.lessons.simple.clean.presentation
 
+import android.IAppProducer
 import android.lessons.simple.clean.domain.UseCaseFirst
 import android.lessons.simple.clean.domain.UseCaseSecond
 import android.lessons.simple.clean.domainwithsoa.firstservice.FirstInteractor
 import android.lessons.simple.clean.domainwithsoa.secondservice.SecondInteractor
+import android.lessons.simple.clean.domainwithsoa.solid.openclosed.OpenClosedWithAgregationExample
 import android.lessons.simple.functionalservices.fservicefirst.FirstFunctionality
 import android.lessons.simple.functionalservices.fservicesecond.SecondFunctionality
 import android.lessons.simple.ui.theme.Android_Lessons_simpleTheme
@@ -34,16 +36,26 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        val bestNum = FirstInteractor().getNiceNum()
+        // DI
+        val polyNum =
+            OpenClosedWithAgregationExample((application as IAppProducer).getNiceProducer()).getNumberPolymorphic()
 
-        val bestTheme = SecondInteractor().getTheme()
+        Log.e("poly ", polyNum.toString())
 
-        Log.e("best is ", "$bestNum $bestTheme")
+        cleanWithSoa()
 
         legacyClean()
 
         printSOA()
     }
+}
+
+fun cleanWithSoa() {
+    val bestNum = FirstInteractor().getNiceNum()
+
+    val bestTheme = SecondInteractor().getTheme()
+
+    Log.e("best is ", "$bestNum $bestTheme")
 }
 
 fun legacyClean() {
