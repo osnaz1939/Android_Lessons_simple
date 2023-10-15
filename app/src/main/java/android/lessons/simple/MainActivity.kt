@@ -1,5 +1,7 @@
 package android.lessons.simple
 
+import android.lessons.simple.ui.functionalservices.fservicefirst.FirstFunctionality
+import android.lessons.simple.ui.functionalservices.fservicesecond.SecondFunctionality
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import android.lessons.simple.ui.theme.Android_Lessons_simpleTheme
+import android.util.Log
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,10 +22,17 @@ class MainActivity : ComponentActivity() {
             Android_Lessons_simpleTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Greeting("Android")
+                    Greeting("Android Lessons Simple")
                 }
             }
         }
+
+        val first = FirstFunctionality().getNumber()
+
+        val second = SecondFunctionality().getString()
+
+        Log.e("test functionality: ", "$first + $second")
+        
     }
 }
 
@@ -38,6 +48,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     Android_Lessons_simpleTheme {
-        Greeting("Android")
+        Greeting("Android Lessons Simple")
     }
 }
