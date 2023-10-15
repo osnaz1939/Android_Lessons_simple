@@ -1,5 +1,7 @@
 package android.lessons.simple
 
+import android.lessons.simple.ui.functionalservices.fservicefirst.FirstFunctionality
+import android.lessons.simple.ui.functionalservices.fservicesecond.SecondFunctionality
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import android.lessons.simple.ui.theme.Android_Lessons_simpleTheme
+import android.util.Log
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +27,11 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        val first = FirstFunctionality().getNumber()
+
+        val second = SecondFunctionality().getString()
+
+        Log.e("test functionality: ", "$first + $second")
         
     }
 }
