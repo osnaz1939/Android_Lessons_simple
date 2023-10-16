@@ -1,6 +1,7 @@
 package android.lessons.simple.clean.presentation
 
 import android.IAppProducer
+import android.content.Intent
 import android.lessons.simple.clean.domain.UseCaseFirst
 import android.lessons.simple.clean.domain.UseCaseSecond
 import android.lessons.simple.clean.domainwithsoa.firstservice.FirstInteractor
@@ -20,6 +21,7 @@ import android.lessons.simple.clean.domainwithsoa.patterns.strategy.OperationSub
 import android.lessons.simple.clean.domainwithsoa.patterns.strategy.StrategyContext
 import android.lessons.simple.clean.domainwithsoa.secondservice.SecondInteractor
 import android.lessons.simple.clean.domainwithsoa.solid.openclosed.OpenClosedWithAgregationExample
+import android.lessons.simple.clean.presentation.mvvm.ViewModelExample
 import android.lessons.simple.functionalservices.fservicefirst.FirstFunctionality
 import android.lessons.simple.functionalservices.fservicesecond.SecondFunctionality
 import android.lessons.simple.ui.theme.Android_Lessons_simpleTheme
@@ -28,17 +30,23 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.Observer
 
 
 class MainActivity : ComponentActivity() {
+
+    private val model = ViewModelExample()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             Android_Lessons_simpleTheme {
                 // A surface container using the 'background' color from the theme
@@ -47,9 +55,30 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Greeting("Android Lessons Simple")
+                    Button(onClick = {
+                        startActivity(Intent(this@MainActivity, SecondActivity::class.java))
+                    }) {
+                        Text(text = "Simple Button")
+                    }
+
+                    Button(onClick = {
+                        model.buttonClick(" test ")
+                    }) {
+                        Text(text = "Calc Button")
+                    }
+
                 }
             }
         }
+
+        //MVVM observe
+        val nameObserver = Observer<String> { theme ->
+            Log.e("mvvm ", theme)
+        }
+
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        model.currentName.observe(this, nameObserver)
+
 
         // DI
         val polyNum =
@@ -80,6 +109,7 @@ class MainActivity : ComponentActivity() {
         printSOA()
     }
 }
+
 
 fun demoStrategy() {
     var context = StrategyContext(OperationAdd())
