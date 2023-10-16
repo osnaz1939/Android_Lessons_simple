@@ -4,6 +4,20 @@ import android.IAppProducer
 import android.lessons.simple.clean.domain.UseCaseFirst
 import android.lessons.simple.clean.domain.UseCaseSecond
 import android.lessons.simple.clean.domainwithsoa.firstservice.FirstInteractor
+import android.lessons.simple.clean.domainwithsoa.patterns.adapter.AudioPlayer
+import android.lessons.simple.clean.domainwithsoa.patterns.builder.LessonsBuilder
+import android.lessons.simple.clean.domainwithsoa.patterns.facade.ShapeMaker
+import android.lessons.simple.clean.domainwithsoa.patterns.iterator.Iterator
+import android.lessons.simple.clean.domainwithsoa.patterns.iterator.NameRepository
+import android.lessons.simple.clean.domainwithsoa.patterns.observer.BinaryObserver
+import android.lessons.simple.clean.domainwithsoa.patterns.observer.OctalObserver
+import android.lessons.simple.clean.domainwithsoa.patterns.observer.Subject
+import android.lessons.simple.clean.domainwithsoa.patterns.state.LocalContext
+import android.lessons.simple.clean.domainwithsoa.patterns.state.StartState
+import android.lessons.simple.clean.domainwithsoa.patterns.state.StopState
+import android.lessons.simple.clean.domainwithsoa.patterns.strategy.OperationAdd
+import android.lessons.simple.clean.domainwithsoa.patterns.strategy.OperationSubstract
+import android.lessons.simple.clean.domainwithsoa.patterns.strategy.StrategyContext
 import android.lessons.simple.clean.domainwithsoa.secondservice.SecondInteractor
 import android.lessons.simple.clean.domainwithsoa.solid.openclosed.OpenClosedWithAgregationExample
 import android.lessons.simple.functionalservices.fservicefirst.FirstFunctionality
@@ -20,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +55,23 @@ class MainActivity : ComponentActivity() {
         val polyNum =
             OpenClosedWithAgregationExample((application as IAppProducer).getNiceProducer()).getNumberPolymorphic()
 
-        Log.e("poly ", polyNum.toString())
+        Log.e("poly ", "$polyNum")
+
+
+
+        demoStrategy()
+
+        demoState()
+
+        demoObserver()
+
+        demoFacade()
+
+        demoAdapter()
+
+        demoIterator()
+
+        demoBuilder()
 
         cleanWithSoa()
 
@@ -48,6 +79,75 @@ class MainActivity : ComponentActivity() {
 
         printSOA()
     }
+}
+
+fun demoStrategy() {
+    var context = StrategyContext(OperationAdd())
+    println("10 + 5 = " + context.executeStrategy(10, 5))
+
+    context = StrategyContext(OperationSubstract())
+    println("10 - 5 = " + context.executeStrategy(10, 5))
+}
+
+fun demoState() {
+    val context = LocalContext()
+
+    val startState = StartState()
+    startState.doAction(context)
+
+    println(context.getState().toString())
+
+    val stopState = StopState()
+    stopState.doAction(context)
+
+    println(context.getState().toString())
+}
+
+fun demoObserver() {
+    val subject = Subject()
+
+    OctalObserver(subject)
+    BinaryObserver(subject)
+
+    println("First state change: 15")
+    subject.state = 15
+    println("Second state change: 10")
+    subject.state = 10
+}
+
+fun demoFacade() {
+    val shapeMaker = ShapeMaker()
+
+    shapeMaker.drawRectangle()
+    shapeMaker.drawSquare()
+}
+
+fun demoAdapter() {
+    val audioPlayer = AudioPlayer()
+
+    audioPlayer.play("mp3", "test1.mp3")
+    audioPlayer.play("mp4", "test2.mp4")
+    audioPlayer.play("vlc", "test3.vlc")
+    audioPlayer.play("avi", "test4.avi")
+}
+
+fun demoIterator() {
+    val namesRepository = NameRepository()
+
+    val iter: Iterator = namesRepository.iterator
+    while (iter.hasNext()) {
+        val name = iter.next() as String
+        println("Name : $name")
+    }
+
+}
+
+fun demoBuilder() {
+    val builder = LessonsBuilder()
+
+    builder.setNum(150)
+
+    builder.printLessons()
 }
 
 fun cleanWithSoa() {
